@@ -18,6 +18,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	gourl "net/url"
 	"os"
@@ -153,11 +154,22 @@ func main() {
 		}
 	}
 
+	var dat string
+	if (*body)[0] == '@' {
+		_dat, err := ioutil.ReadFile((*body)[1:])
+		if err != nil {
+			usageAndExit(err.Error())
+		}
+		dat = string(_dat)
+	} else {
+		dat = *body
+	}
+
 	(&boomer.Boomer{
 		Req: &boomer.ReqOpts{
 			Method:   method,
 			URL:      url,
-			Body:     *body,
+			Body:     dat,
 			Header:   header,
 			Username: username,
 			Password: password,
