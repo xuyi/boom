@@ -155,7 +155,7 @@ func main() {
 	}
 
 	var dat string
-	if (*body)[0] == '@' {
+	if *body != "" && (*body)[0] == '@' {
 		_dat, err := ioutil.ReadFile((*body)[1:])
 		if err != nil {
 			usageAndExit(err.Error())
